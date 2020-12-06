@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    layout:decorate="~{layout/layout}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Alterar Cadastro</title>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/dataTables/jquery.dataTables.css}">
+    </head>
+
+    <body>
+        <section layout:fragment="conteudo">
+            <div class="alert alert-success" role="alert" th:if="${not #strings.isEmpty(alteracaoSuccess)}">
+                <span th:text=${alteracaoSuccess}></span>
+            </div>
+            <div class="alert alert-danger" role="alert" th:if="${not #strings.isEmpty(alteracaoError)}">
+                <span th:text=${alteracaoError}></span>
+            </div>
+
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col" style="width: 250px;">Informações do Usuário</th>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <th scope="row">Nome</th>
+                        <td th:text="${candidato.nome}">Nome</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">E-mail</th>
+                        <td th:text="${candidato.email}">E-mail</td>
+                    </tr>  
+                </tbody>
+            </table>
+
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter1" th:data-id="${candidato.id}" th:data-nome="${candidato.nome}" th:data-email="${candidato.email}" th:data-user="${candidato.usuario.id}">
+                Alterar Dados
+            </button>
+
+            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#exampleModalCenter2" th:data-id="${candidato.usuario.id}">
+                Alterar Senha
+            </button>
+
+
+
+
+            <div class="modal fade" id="exampleModalCenter1" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Alteração de Dados</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form th:action="@{/candidato/dadosCad/update/cad}" th:object="${candidatosModel}" method="POST">
+                            <div class="modal-body">
+                                <input type="hidden" id="inputId1" value="" th:field="*{id}">
+                                <div class="form-group">
+                                    <label for="recipient-nome" class="col-form-label">Nome</label>
+                                    <input type="text" class="form-control" id="inputNome" th:field="*{nome}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-email" class="col-form-label">E-mail</label>
+                                    <input type="text" class="form-control" id="inputEmail" th:field="*{email}">
+                                </div>
+                                <input type="hidden" id="inputUser" value="" th:field="*{usuario.id}">
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary" id="btAlterar">Alterar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+            <div class="modal fade" id="exampleModalCenter2" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Alteração da Senha</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form th:action="@{/candidato/dadosCad/update/pass}" th:object="${usuariosModel}" method="POST">
+                            <div class="modal-body">
+                                <input type="hidden" id="inputId2" value="" th:field="*{id}">
+                                <div class="form-group">
+                                    <label for="recipient-password" class="col-form-label">Nova senha</label>
+                                    <input type="password" class="form-control" id="inputPassword" th:field="*{password}">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary" id="btAlterar">Alterar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <script type="text/javascript" th:src="@{/javascripts/modal/modalControlPass.js}"></script>
+            <script type="text/javascript" th:src="@{/javascripts/modal/modalControlDadoCad.js}"></script>
+            <script type="text/javascript" th:src="@{/javascripts/jquery/jquery.dataTables.js}"></script>
+            <script type="text/javascript" th:src="@{/javascripts/jquery/jquery.tableControl.candidato.js}"></script>
+        </section>
+    </body>
+</html>

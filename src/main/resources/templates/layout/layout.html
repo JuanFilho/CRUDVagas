@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    xmlns:th="http://www.thymeleaf.org">
+    
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/bootstrap/bootstrap.min.css}">
+        <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/loader.css}">
+
+        <title>Default</title>
+    </head>
+    <body>
+        <script type="text/javascript" th:src="@{/javascripts/jquery/jquery-3.5.1.min.js}"></script>
+        <script type="text/javascript" th:src="@{/javascripts/bootstrap/bootstrap.bundle.min.js}"></script>
+        <script type="text/javascript" th:src="@{/javascripts/loader.js}"></script>
+
+        <!-- Loader -->
+        <div class="loader-wrapper">
+            <span class="loader"><span class="loader-inner"></span></span>
+        </div>
+
+        <!-- Header -->
+        <div th:insert="~{layout/menuAdmin :: menu}" sec:authorize="hasRole('ADM')"></div>
+        <div th:insert="~{layout/menuEmpresa :: menu}" sec:authorize="hasRole('EMPRESA')"></div>
+        <div th:insert="~{layout/menuCandidato :: menu}" sec:authorize="hasRole('CANDIDATO')"></div>
+
+        <!-- Conteudo da página -->
+        <section class="container-fluid my-5 pt-5 px-5 col col-xl-10" layout:fragment="conteudo"></section>
+
+        <!-- Footer -->
+        <div th:insert="~{layout/footer :: footer}"></div>
+    </body>
+</html>

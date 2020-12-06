@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    layout:decorate="~{layout/layout}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    
+        <title>Cadastro de Empresas</title>
+    </head>
+
+    <body>
+        <section layout:fragment="conteudo">
+            <script type="text/javascript" th:src="@{/javascripts/jquery/jquery.mask.min.js}"></script>
+
+            <div class="alert alert-success" role="alert" th:if="${not #strings.isEmpty(cadastroSuccess)}">
+                <span th:text=${cadastroSuccess}></span>
+            </div>
+            <div class="alert alert-danger" role="alert" th:if="${not #strings.isEmpty(cadastroError)}">
+                <span th:text=${cadastroError}></span>
+            </div>
+            
+            <form th:action="@{/admin/empresas/cadastro}" th:object="${empresasModel}" method="POST">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                    <th:block th:each="erro : ${#fields.detailedErrors()}">
+                        <div>
+                            <span th:text="${erro.message}">Erro no cadastro</span>
+                        </div>
+                    </th:block>
+                </div>
+
+                <div class="form-group">
+                    <label for="InputRazaoSocial">Razão Social</label>
+                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('razaosocial')} ? is-invalid" id="InputRazaoSocial" th:field="*{razaosocial}">
+                </div>
+                <div class="form-group">
+                    <label for="InputNomeFantasia">Nome Fantasia</label>
+                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('nomefantasia')} ? is-invalid" id="InputNomeFantasia" th:field="*{nomefantasia}">
+                </div>
+                <div class="form-group">
+                    <label for="InputCNPJ">CNPJ</label>
+                    <input type="text" minlength="18" maxlength="18" class="form-control" th:classappend="${#fields.hasErrors('cnpj')} ? is-invalid" id="inputCNPJ" th:field="*{cnpj}" onkeypress="$(this).mask('00.000.000/0000-00');">
+                </div>
+                <div class="form-group">
+                    <label for="SelectUsuario">Usuário</label>
+                    <select class="form-control" id="selectUsuario" th:field="*{usuario.id}">
+                        <option value="">Selecione um usuario...</option>
+                        <option th:each="usuario : ${usuarios}" th:value="${usuario.id}" th:text="${usuario.user}"></option>
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-dark">Cadastrar</button>
+            </form>   
+        </section>
+    </body>
+</html>

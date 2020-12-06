@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    layout:decorate="~{layout/layout}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Cadastro de Usuários do Sistema</title>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/dataTables/jquery.dataTables.css}">
+    </head>
+
+    <body>
+        <section layout:fragment="conteudo">
+            <div class="alert alert-success" role="alert" th:if="${not #strings.isEmpty(cadastroSuccess)}">
+                <span th:text=${cadastroSuccess}></span>
+            </div>
+            <div class="alert alert-danger" role="alert" th:if="${not #strings.isEmpty(cadastroError)}">
+                <span th:text=${cadastroError}></span>
+            </div>
+            
+            <form th:action="@{/admin/usuarios/cadastro}" th:object="${usuariosModel}" method="POST">
+                <div class="alert alert-danger" role="alert" th:if="${#fields.hasAnyErrors()}">
+                    <th:block th:each="erro : ${#fields.detailedErrors()}">
+                        <div>
+                            <span th:text="${erro.message}">Erro no cadastro</span>
+                        </div>
+                    </th:block>
+                </div>
+
+                <div class="form-group">
+                    <label for="InputUsuario">Usuário</label>
+                    <input type="text" class="form-control" th:classappend="${#fields.hasErrors('user')} ? is-invalid" id="inputUsuario" th:field="*{user}">
+                </div>
+                <div class="form-group">
+                    <label for="InputSenha">Senha</label>
+                    <input type="password" class="form-control" th:classappend="${#fields.hasErrors('password')} ? is-invalid" id="inputSenha" th:field="*{password}">
+                </div>
+                <div class="form-group">
+                    <label for="SelectRegra">Nível de acesso</label>
+                    <select class="form-control" th:classappend="${#fields.hasErrors('regra')} ? is-invalid" id="selectRegra" th:field="*{regra}">
+                        <option value="">Selecione um nível...</option>
+                        <option value="ROLE_ADM">Administrador</option>
+                        <option value="ROLE_EMPRESA">Empresa</option>
+                        <option value="ROLE_CANDIDATO">Candidato</option>
+                    </select>
+                </div>
+                <input type="hidden" value="1" id="inputAtivo" th:field="*{ativo}">
+                <button type="submit" class="btn btn-dark" id="btCadastrar">Cadastrar</button>
+            </form>   
+        </section>
+    </body>
+</html>

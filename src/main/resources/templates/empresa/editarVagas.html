@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="pt-br"
+    layout:decorate="~{layout/layout}">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <title>Edição de Vagas</title>
+
+        <link rel="stylesheet" type="text/css" th:href="@{/stylesheets/dataTables/jquery.dataTables.css}">
+    </head>
+
+    <body>
+        <section layout:fragment="conteudo">
+            <div class="alert alert-success" role="alert" th:if="${not #strings.isEmpty(alteracaoSuccess)}">
+                <span th:text=${alteracaoSuccess}></span>
+            </div>
+            <div class="alert alert-danger" role="alert" th:if="${not #strings.isEmpty(alteracaoError)}">
+                <span th:text=${alteracaoError}></span>
+            </div>
+
+            <div class="alert alert-success" role="alert" th:if="${not #strings.isEmpty(deleteSuccess)}">
+                <span th:text=${deleteSuccess}></span>
+            </div>
+            <div class="alert alert-danger" role="alert" th:if="${not #strings.isEmpty(deleteError)}">
+                <span th:text=${deleteError}></span>
+            </div>
+
+            <span th:each="vaga,iterStat : ${professores.listVaga}">
+                <p class="h2 mb-3" th:text="${vaga.nome}"/>
+                <table id="" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>Vaga</th>
+                            <th style="width: 150px;">Descrição</th>
+                            <th style="width: 150px;">Área Atuação</th>
+                            <th style="width: 150px;">E-mail Contato</th>
+                            <th style="width: 150px;">Telefone Contato</th>
+                            <th style="width: 100px;">Editar</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr th:each="vaga : ${vaga.listVaga}">
+                            <td th:text="${vaga.nome}">Vaga</td>
+                            <td th:text="${vaga.descricao}"></td>
+                            <td th:text="${vaga.area_atuacao}"></td>
+                            <td th:text="${vaga.email}"></td>
+                            <td th:text="${vaga.telefone}"></td>
+                            <td>
+                                <button type="button" class="btn btn-outline-dark" data-toggle="modal" data-target="#exampleModalCenter" th:data-id="${vaga.id}" th:data-nome="${vaga.nome}" th:data-descricao="${vaga.descricao}" th:data-area_atuacao="${vaga.area_atuacao}" th:data-email="${vaga.email}" th:data-telefone="${vaga.telefone}">
+                                    <svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path fill-rule="evenodd" d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5L13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175l-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="mb-5"></div>
+            </span>
+
+            <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalCenterTitle">Edição da Vaga</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <form action="#" th:action="@{/empresa/cadVagas}" th:object="${vagasModel}" method="POST">
+                            <div class="modal-body">
+                                <input type="hidden" id="inputId" value="" th:field="*{id}">
+                                <div class="form-group">
+                                    <label for="recipient-vaga" class="col-form-label">Vaga</label>
+                                    <input type="text" class="form-control" id="inputVaga" disabled>
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-descricao" class="col-form-label">Descrição</label>
+                                    <input type="number" minlength="0" maxlength="10" class="form-control" id="inputdescricao" th:field="*{nota1}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-area_atuacao" class="col-form-label">Área de Atuação</label>
+                                    <input type="number" minlength="0" maxlength="10" class="form-control" id="inputAreaAtuacao" th:field="*{area_atuacao}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-email" class="col-form-label">E-mail para Contato</label>
+                                    <input type="number" minlength="0" maxlength="10" class="form-control" id="inputEmailContato" th:field="*{email}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="recipient-telefone" class="col-form-label">Telefone para Contato</label>
+                                    <input type="number" minlength="0" maxlength="10" class="form-control" id="inputTelefoneContato" th:field="*{telefone}">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                                    <button type="submit" class="btn btn-primary" id="btAlterar">Alterar</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <script type="text/javascript" th:src="@{/javascripts/modal/modalControlVagas.js}"></script>
+            <script type="text/javascript" th:src="@{/javascripts/jquery/jquery.dataTables.js}"></script>
+            <script type="text/javascript" th:src="@{/javascripts/jquery/jquery.tableControl.empresa.js}"></script>
+        </section>
+    </body>
+</html>
